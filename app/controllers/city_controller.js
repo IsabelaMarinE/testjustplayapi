@@ -1,37 +1,75 @@
+const { cityServices } = require('../services/city.Service');
+
 exports.getAllCities = async (req, res, next) => {
-  const text = req.params.text;
-  if(text.length > 0){
-    const postUser =  await PostModel.find({title: { $regex: '.*' + text + '.*' } });
-    if(postUser){
-      return res
-              .status(200)
-              .json({
-                items: postUser,
-                state: true,
-                error: ''
-              })
+  try {
+    const listCities =  await cityServices.getAllCities();
+    if(listCities){
+      res.status(200).json({
+        items: listCities,
+        state: true,
+        error: ''
+      })
     }else{
-      return res
-              .status(204)
-              .json({
-                items: [],
-                state: false,
-                error: 'Not Found'
-              })
+      res.status(204).json({
+        items: [],
+        state: false,
+        error: 'Not Found'
+      })
     }
-  }else {
-    const allpost = await PostModel.find();
-    return res
-          .status(200)
-          .json({
-            items: allpost,
-            state: true,
-            error: ''
-          })
+  } catch (error) {
+    res.status(500).json({
+      state: false,
+      error: error.message,
+    });
   }
-  
 }
 
-exports.filterCityById = async (req, res, next) => {}
+exports.filterCityById = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const listCities =  await cityServices.findCityById(id);
+    if(listCities){
+      res.status(200).json({
+        items: listCities,
+        state: true,
+        error: ''
+      })
+    }else{
+      res.status(204).json({
+        items: [],
+        state: false,
+        error: 'Not Found'
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      state: false,
+      error: error.message,
+    });
+  }
+}
 
-exports.filterCityByName = async (req, res, next) => {}
+exports.filterCityByName = async (req, res, next) => {
+  const name = req.params.name;
+  try {
+    const listCities =  await cityServices.findCityByName(name);
+    if(listCities){
+      res.status(200).json({
+        items: listCities,
+        state: true,
+        error: ''
+      })
+    }else{
+      res.status(204).json({
+        items: [],
+        state: false,
+        error: 'Not Found'
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      state: false,
+      error: error.message,
+    });
+  }
+}
