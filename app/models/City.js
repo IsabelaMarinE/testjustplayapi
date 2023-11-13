@@ -17,7 +17,7 @@ const City = sequelize.define('City', {
   },
   img: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   id_state: {
     type: DataTypes.CHAR(36),

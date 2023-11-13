@@ -1,4 +1,30 @@
 const { cityServices } = require('../services/city.Service');
+const { sateServices } = require('../services/state.Service');
+
+exports.createCity = async (req, res, next) => {
+  const { body } = req;
+  try {
+    const newcity =  await cityServices.createCity(body);
+    if(newcity){
+      res.status(200).json({
+        items: newcity,
+        state: true,
+        error: ''
+      })
+    }else{
+      res.status(204).json({
+        items: [],
+        state: false,
+        error: 'Not Found'
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      state: false,
+      error: error.message,
+    });
+  }
+}
 
 exports.getAllCities = async (req, res, next) => {
   try {
@@ -71,5 +97,16 @@ exports.filterCityByName = async (req, res, next) => {
       state: false,
       error: error.message,
     });
+  }
+}
+
+exports.createCityDb = async (req, res, next) => {
+  try {
+    const state = await sateServices.addStatesDb();
+    if(state){
+      await cityServices.addCityDb();
+    }
+  } catch (error) {
+    throw new Error(error);
   }
 }

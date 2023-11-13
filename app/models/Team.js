@@ -3,7 +3,7 @@ const { sequelize } = require('./connection');
 const Game = require('./Game');
 
 const Team = sequelize.define('Team', {
-  id_state: {
+  id_team: {
     type: DataTypes.CHAR(36),
     allowNull: false,
     defaultValue: Sequelize.Sequelize.fn('uuid'),
@@ -15,7 +15,7 @@ const Team = sequelize.define('Team', {
   },
   players: {
     type: DataTypes.ARRAY,
-    allowNull: false
+    allowNull: true
   },
   isActive: {
     type: DataTypes.BOOLEAN,

@@ -23,11 +23,11 @@ const Detail = sequelize.define('Detail', {
   },
   lat: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   log: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   createdAt: {
     type: DataTypes.DATE,

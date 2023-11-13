@@ -28,7 +28,7 @@ const Player = sequelize.define('Player', {
   },
   img: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   id_city: {
     type: DataTypes.CHAR(36),
@@ -36,14 +36,6 @@ const Player = sequelize.define('Player', {
     references: {
       model: 'city',
       key: 'id_city'
-    }
-  },
-  id_state: {
-    type: DataTypes.CHAR(36),
-    allowNull: false,
-    references: {
-      model: 'state',
-      key: 'id_state'
     }
   },
   createdAt: {

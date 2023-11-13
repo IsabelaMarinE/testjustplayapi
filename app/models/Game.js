@@ -23,7 +23,7 @@ const Game = sequelize.define('Game', {
   },
   img: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   game_date: {
     type: DataTypes.DATE,
@@ -31,7 +31,7 @@ const Game = sequelize.define('Game', {
   },
   id_team: {
     type: DataTypes.CHAR(36),
-    allowNull: false,
+    allowNull: true,
     references: {
       model: 'team',
       key: 'id_team'
