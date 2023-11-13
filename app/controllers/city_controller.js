@@ -1,5 +1,4 @@
-const { cityServices } = require('../services/city.Service');
-const { sateServices } = require('../services/state.Service');
+const cityServices = require('../services/city.Service');
 
 exports.createCity = async (req, res, next) => {
   const { body } = req;
@@ -102,10 +101,7 @@ exports.filterCityByName = async (req, res, next) => {
 
 exports.createCityDb = async (req, res, next) => {
   try {
-    const state = await sateServices.addStatesDb();
-    if(state){
-      await cityServices.addCityDb();
-    }
+    await cityServices.addCityDb();
   } catch (error) {
     throw new Error(error);
   }

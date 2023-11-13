@@ -17,7 +17,7 @@
     "express-validator": "^7.0.1",
     "nodemon": "^3.0.1",
     "pg": "^8.11.3",
-    "sequelize": "^6.34.0"
+    "sequelize": "^6.28.0"
   },
   "devDependencies": {
     "uuid": "^9.0.1"

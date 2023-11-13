@@ -4,8 +4,7 @@ const crypto = require('crypto');
 module.exports = (sequelize, DataTypes) => {
   class Player extends Model {
     static associate(models) {
-      Player.belongsToMany(models.State, {foreignKey: 'id_state'});
-      Player.belogsTo(models.City, {foreignKey: 'id_city'});
+      Player.belongsTo(models.City, {as: 'player_city', foreignKey: 'id_city'});
     }
   };
   Player.init({
@@ -38,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     id_city: {
       type: DataTypes.CHAR(36),
       allowNull: false,
+      references: {
+        key: 'id_city',
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -46,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Player',
+    tableName: 'players'
   });
   return Player;
 };

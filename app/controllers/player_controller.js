@@ -1,4 +1,4 @@
-const { playerServices } = require('../services/player.Service');
+const playerServices = require('../services/player.Service');
 
 exports.createPlayer = async (req, res, next) => {
   try {

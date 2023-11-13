@@ -1,5 +1,4 @@
-const { City } = require('../models/City');
-const { State } = require('../models/State');
+const City  = require('../models').City;
 const { Op } = require("sequelize");
 
 const getAllCities = async () => {
@@ -42,34 +41,10 @@ const findCityByName = async (name) => {
 }
 
 const addCityDb = async () => {
-  const state = State.findOne({
-    where: {
-      name: 'Texas'
-    },
-    attributes: ['id_state'],
+  await City.create({
+    name: 'Houston',
+    img: 'https://images.pexels.com/photos/273204/pexels-photo-273204.jpeg?auto=compress&cs=tinysrgb&w=200&h=350&dpr=1',
   });
-  if(state){
-    const data = [
-      {
-        name: 'Houston',
-        img: 'https://images.pexels.com/photos/273204/pexels-photo-273204.jpeg?auto=compress&cs=tinysrgb&w=200&h=350&dpr=1',
-        id_state: state.id_state
-      },
-      {
-        name: 'Dallas',
-        img: 'https://images.pexels.com/photos/280193/pexels-photo-280193.jpeg?auto=compress&cs=tinysrgb&w=200&h=350&dpr=1',
-        id_state: state.id_state
-      }
-    ];
-    for(let city of data){
-      await City.create({
-        name: city.img,
-        img: city.img,
-        id_state: city.id_state
-      });
-    }
-  }
- 
 }
 
 const createCity = async (body) => {
@@ -87,7 +62,6 @@ const createCity = async (body) => {
     const newCity = await City.create({
       name: body.name,
       img: body.img ? body.img : '',
-      id_state: body.id_state
     });
     return newCity;
   } catch (error) {
@@ -100,8 +74,7 @@ const updateCity = async (body) => {
   if(city){
     city.update({
       name: body.name ? body.name : city.name,
-      img: body.img ? body.img : city.img,
-      id_state: body.id_state ? body.id_state : city.id_state
+      img: body.img ? body.img : city.img
     })
   }
 

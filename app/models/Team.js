@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     players: {
-      type: DataTypes.ARRAY(String),
+      type: DataTypes.JSON,
       allowNull: true
     },
     isActive: {
@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Team',
+    tableName: 'teams'
   });
   return Team;
 };

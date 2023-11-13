@@ -1,6 +1,6 @@
-const { Game } = require('../models/Game');
-const { Team } = require('../models/Team');
-const { Detail } = require('../models/Detail');
+const Game = require('../models').Game;
+const Team = require('../models').Team;
+const Detail = require('../models').Detail;
 
 const getAllGames = async () => {
   try {
@@ -14,7 +14,7 @@ const getAllGames = async () => {
 }
 
 const createGame = async (body) => {
-  const {name, location, img, game_date, id_city, id_state, time_game, description, price, lat, log, size} = body;
+  const {name, location, img, game_date, id_city, time_game, description, price, lat, log, size} = body;
 
   try {
     const team = await Team.create({
@@ -36,8 +36,7 @@ const createGame = async (body) => {
           game_date: game_date,
           id_team: team.id_team,
           id_detail: detail.id_detail,
-          id_city: id_city,
-          id_state: id_state
+          id_city: id_city
         });
         if(game){
           return game;

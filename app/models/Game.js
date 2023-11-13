@@ -4,10 +4,9 @@ const crypto = require('crypto');
 module.exports = (sequelize, DataTypes) => {
   class Game extends Model {
     static associate(models) {
-      Game.belongsTo(models.State, {foreignKey: 'id_state'});
-      Game.belogsTo(models.Detail, {foreignKey: 'id_detail'});
-      Game.belogsTo(models.City, {foreignKey: 'id_city'});
-      Game.belogsTo(models.Team, {foreignKey: 'id_team'});
+      Game.belongsTo(models.Detail, {as: 'game_detail',foreignKey: 'id_detail'});
+      Game.belongsTo(models.City, {as: 'game_city',foreignKey: 'id_city'});
+      Game.belongsTo(models.Team, {as: 'game_team',foreignKey: 'id_team'});
     }
   };
   Game.init({
@@ -36,18 +35,23 @@ module.exports = (sequelize, DataTypes) => {
     id_team: {
       type: DataTypes.CHAR(36),
       allowNull: true,
+      references: {
+        key: 'id_team',
+      }
     },
     id_detail: {
       type: DataTypes.CHAR(36),
       allowNull: false,
+      references: {
+        key: 'id_detail',
+      }
     },
     id_city: {
       type: DataTypes.CHAR(36),
       allowNull: false,
-    },
-    id_state: {
-      type: DataTypes.CHAR(36),
-      allowNull: false,
+      references: {
+        key: 'id_city',
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -56,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Game',
+    tableName: 'games'
   });
   return Game;
 };

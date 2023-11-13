@@ -1,4 +1,4 @@
-const { gameServices } = require('../services/game.Service');
+const gameServices = require('../services/game.Service');
 
 exports.createGame = async (req, res, next) => {
   try {

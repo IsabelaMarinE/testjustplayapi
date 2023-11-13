@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
-const { sequelize } = require('./db/Config/database');
+var models = require('./models');
 require('dotenv').config();
+
+models.sequelize.sync();
 
 const app = express();
 
@@ -26,14 +28,6 @@ app.use('/api/city', citiesRouter);
 app.use('/api/player', playersRouter);
 app.use('/api/game', gamesRouter);
 
-sequelize
-  .sync()
-  .then(() => {
-    console.log('Sync models');
-    app.listen(process.env.PORT, () => {
-      console.log(`Server listen on http://localhost:${process.env.PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Connection fail', error);
-  });
+app.listen(process.env.PORT ? process.env.PORT : '3000' , () => {
+  console.log(`Server listen on http://localhost:3000`);
+});

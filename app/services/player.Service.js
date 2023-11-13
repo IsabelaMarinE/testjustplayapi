@@ -1,4 +1,4 @@
-const { Player } = require('../models/Player');
+const Player = require('../models').Player;
 
 const createPlayer = async (body) => {
   const {name, last_name, img, email, id_city, phone } = body;
@@ -9,7 +9,7 @@ const createPlayer = async (body) => {
       last_name: last_name,
       img: img ? img : '',
       email: email,
-      phone: email,
+      phone: phone,
       id_city: id_city
     });
     return playe;
