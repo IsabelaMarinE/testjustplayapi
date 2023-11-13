@@ -1,50 +1,51 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('./connection');
-const City = require('./City');
-const State = require('./State');
+const { Model } = require('sequelize');
+const crypto = require('crypto');
 
-const Player = sequelize.define('Player', {
-  id_player: {
-    type: DataTypes.CHAR(36),
-    allowNull: false,
-    defaultValue: Sequelize.Sequelize.fn('uuid'),
-    primaryKey: true
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  last_name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  img: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  id_city: {
-    type: DataTypes.CHAR(36),
-    allowNull: false,
-    references: {
-      model: 'city',
-      key: 'id_city'
+module.exports = (sequelize, DataTypes) => {
+  class Player extends Model {
+    static associate(models) {
+      Player.belongsToMany(models.State, {foreignKey: 'id_state'});
+      Player.belogsTo(models.City, {foreignKey: 'id_city'});
     }
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  }
-}, { tableName: 'players' });
-
-Player.belogsTo(City, {foreignKey: 'id_city'});
-Player.belogsTo(State, {foreignKey: 'id_state'});
-
-module.exports = {Player}
+  };
+  Player.init({
+    id_player: {
+      type: DataTypes.CHAR(36),
+      allowNull: false,
+      defaultValue: crypto.randomUUID(),
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    id_city: {
+      type: DataTypes.CHAR(36),
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+  }, {
+    sequelize,
+    modelName: 'Player',
+  });
+  return Player;
+};

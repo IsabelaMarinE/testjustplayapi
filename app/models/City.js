@@ -1,40 +1,40 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('./connection');
-const State = require('./State');
-const Game = require('./Game');
-const Player = require('./Player');
+const { Model } = require('sequelize');
+const crypto = require('crypto');
 
-const City = sequelize.define('City', {
-  id_city: {
-    type: DataTypes.CHAR(36),
-    allowNull: false,
-    defaultValue: Sequelize.Sequelize.fn('uuid'),
-    primaryKey: true
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  img: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  id_state: {
-    type: DataTypes.CHAR(36),
-    allowNull: false,
-    references: {
-      model: 'state',
-      key: 'id_state'
+module.exports = (sequelize, DataTypes) => {
+  class City extends Model {
+    static associate(models) {
+      City.belongsToMany(models.State, {foreignKey: 'id_state'});
+      City.hasMany(models.Game, {as: 'city_game', foreignKey: 'id_game'});
+      City.hasMany(models.Player, {as: 'city_player', foreignKey: 'id_player'});
     }
-  },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  }
-}, { tableName: 'cities' });
-
-City.belogsTo(State, {foreignKey: 'id_state'});
-City.hasMany(Game, {as: 'city_game', foreignKey: 'id_game'});
-City.hasMany(Player, {as: 'city_player', foreignKey: 'id_player'});
-
-module.exports = {City}
+  };
+  City.init({
+    id_city: {
+      type: DataTypes.CHAR(36),
+      allowNull: false,
+      defaultValue: crypto.randomUUID(),
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    id_state: {
+      type: DataTypes.CHAR(36),
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW
+    }
+  }, {
+    sequelize,
+    modelName: 'City',
+  });
+  return City;
+};
