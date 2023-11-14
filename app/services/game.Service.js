@@ -95,9 +95,25 @@ const findGameByName = async (name) => {
   }
 }
 
+const findGameByCity = async (id_city) => {
+  try {
+    const games = await Game.find({
+      where: {
+        id_city: id_city
+      }
+    });
+    if(games){
+      return games;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 module.exports = {
   updateGame,
   getAllGames,
   createGame,
-  findGameByName
+  findGameByName,
+  findGameByCity
 };

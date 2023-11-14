@@ -28,6 +28,6 @@ app.use('/api/city', citiesRouter);
 app.use('/api/player', playersRouter);
 app.use('/api/game', gamesRouter);
 
-app.listen(process.env.PORT ? process.env.PORT : '3000' , () => {
-  console.log(`Server listen on http://localhost:3000`);
+app.listen(process.env.PORT ? process.env.PORT : '4000' , () => {
+  console.log(`Server listen on http://localhost:4000`);
 });

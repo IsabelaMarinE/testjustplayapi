@@ -4,6 +4,7 @@ const { body } = require('express-validator');
 const gameController = require('../controllers/game_controller');
 
 router.get('/getListOfGames', gameController.getListGames);
+router.get('/getGameByCity/:id', gameController.getGamesbyCity);
 router.get('/filterGameByName/:name', gameController.filterGameByName);
 router.post(
   '/createGame',

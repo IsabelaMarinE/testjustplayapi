@@ -76,7 +76,32 @@ exports.updateGame = async (req, res, next) => {
 exports.filterGameByName = async (req, res, next) => {
   const name = req.params.name;
   try {
-    const listGames =  await gameServices.findGameByName(name);
+    const listGames =  await gameServices.findGameByCity(name);
+    if(listGames){
+      res.status(200).json({
+        items: listGames,
+        state: true,
+        error: ''
+      })
+    }else{
+      res.status(204).json({
+        items: [],
+        state: false,
+        error: 'Not Found'
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      state: false,
+      error: error.message,
+    });
+  }
+}
+
+exports.getGamesbyCity = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const listGames =  await gameServices.findGameByCity(id);
     if(listGames){
       res.status(200).json({
         items: listGames,
