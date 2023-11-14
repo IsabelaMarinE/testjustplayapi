@@ -1,8 +1,9 @@
 const gameServices = require('../services/game.Service');
 
 exports.createGame = async (req, res, next) => {
+  const { body } = req;
   try {
-    const game =  await gameServices.createGame(res.body);
+    const game =  await gameServices.createGame(body);
     if(game){
       res.status(200).json({
         items: game,
@@ -105,6 +106,32 @@ exports.getGamesbyCity = async (req, res, next) => {
     if(listGames){
       res.status(200).json({
         items: listGames,
+        state: true,
+        error: ''
+      })
+    }else{
+      res.status(204).json({
+        items: [],
+        state: false,
+        error: 'Not Found'
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      state: false,
+      error: error.message,
+    });
+  }
+}
+
+exports.getGamesbyId = async (req, res, next) => {
+  const id = req.params.id;
+  console.log("id=======",id)
+  try {
+    const game =  await gameServices.getGameById(id);
+    if(game){
+      res.status(200).json({
+        items: game,
         state: true,
         error: ''
       })

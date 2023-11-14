@@ -1,10 +1,18 @@
 const Game = require('../models').Game;
 const Team = require('../models').Team;
 const Detail = require('../models').Detail;
+const City = require('../models').City;
 
 const getAllGames = async () => {
   try {
-    const games = await Game.findAll();
+    const games = await Game.findAll({
+      include: [
+        {
+          model: Team,
+          as: 'game_team'
+        },
+      ],
+    });
     if(games){
       return games;
     }
@@ -14,11 +22,12 @@ const getAllGames = async () => {
 }
 
 const createGame = async (body) => {
-  const {name, location, img, game_date, id_city, time_game, description, price, lat, log, size} = body;
-
+  const {name, location, img, game_date, id_city, time_game, description, price, lat, log, size, isActive} = body;
   try {
+    const city = await City.findByPk(id_city);
     const team = await Team.create({
-      size: size
+      size: size,
+      isActive: isActive
     });
     if(team){
       const detail = await Detail.create({
@@ -34,9 +43,9 @@ const createGame = async (body) => {
           location: location,
           img: img,
           game_date: game_date,
-          id_team: team.id_team,
+          id_city: city.id_city,
           id_detail: detail.id_detail,
-          id_city: id_city
+          id_team: team.id_team
         });
         if(game){
           return game;
@@ -97,13 +106,45 @@ const findGameByName = async (name) => {
 
 const findGameByCity = async (id_city) => {
   try {
-    const games = await Game.find({
+    const games = await Game.findAll({
       where: {
         id_city: id_city
-      }
+      },
+      include: [
+        {
+          model: Team,
+          as: 'game_team'
+        },
+      ],
     });
     if(games){
       return games;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+const getGameById = async (id_game) => {
+  try {
+    const games = await Game.findAll({
+      where:{
+        id_game: id_game
+      },
+      include: [
+        {
+          model: Team,
+          as: 'game_team'
+        },
+        {
+          model: Detail,
+          as: 'game_detail'
+        },
+      ]
+    });
+
+    if(games){
+      return games[0];
     }
   } catch (error) {
     throw new Error(error);
@@ -115,5 +156,6 @@ module.exports = {
   getAllGames,
   createGame,
   findGameByName,
-  findGameByCity
+  findGameByCity,
+  getGameById
 };

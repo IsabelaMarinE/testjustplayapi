@@ -4,9 +4,9 @@ const crypto = require('crypto');
 module.exports = (sequelize, DataTypes) => {
   class Game extends Model {
     static associate(models) {
-      Game.belongsTo(models.Detail, {as: 'game_detail',foreignKey: 'id_detail'});
-      Game.belongsTo(models.City, {as: 'game_city',foreignKey: 'id_city'});
-      Game.belongsTo(models.Team, {as: 'game_team',foreignKey: 'id_team'});
+      Game.belongsTo(models.Detail, {as: 'game_detail',foreignKey: 'id_detail', sourceKey: "id_detail", uniqueKey: "game_detail_fk",constraints: false, });
+      Game.belongsTo(models.City, {as: 'game_city',foreignKey: 'id_city', sourceKey: 'id_city', uniqueKey: "game_city_fk", constraints: false,});
+      Game.belongsTo(models.Team, {as: 'game_team',foreignKey: 'id_team', sourceKey: 'id_team', uniqueKey: "game_team_fk", constraints: false,});
     }
   };
   Game.init({
@@ -31,27 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     game_date: {
       type: DataTypes.DATE,
       allowNull: false
-    },
-    id_team: {
-      type: DataTypes.CHAR(36),
-      allowNull: true,
-      references: {
-        key: 'id_team',
-      }
-    },
-    id_detail: {
-      type: DataTypes.CHAR(36),
-      allowNull: false,
-      references: {
-        key: 'id_detail',
-      }
-    },
-    id_city: {
-      type: DataTypes.CHAR(36),
-      allowNull: false,
-      references: {
-        key: 'id_city',
-      }
     },
     createdAt: {
       type: DataTypes.DATE,

@@ -4,8 +4,8 @@ const crypto = require('crypto');
 module.exports = (sequelize, DataTypes) => {
   class City extends Model {
     static associate(models) {
-      City.hasMany(models.Game, {as: 'city_game', foreignKey: 'id_game'});
-      City.hasMany(models.Player, {as: 'city_player', foreignKey: 'id_player'});
+      City.hasMany(models.Game, {as: 'city_game'});
+      City.hasMany(models.Player, {as: 'city_player'});
     }
   };
   City.init({

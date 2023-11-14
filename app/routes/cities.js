@@ -7,11 +7,7 @@ router.get('/addDataDB', cityController.createCityDb);
 router.get('/getListCities', cityController.getAllCities);
 router.get('/getCityById/:id', cityController.filterCityById);
 router.get('/getCityByName/:name', cityController.filterCityByName);
-router.post(
-  '/createCity',
-  body('name').notEmpty(),
-  cityController.createCity
-);
+router.post('/createCity',cityController.createCity);
 
 
 module.exports = router;

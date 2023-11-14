@@ -4,7 +4,7 @@ const crypto = require('crypto');
 module.exports = (sequelize, DataTypes) => {
   class Detail extends Model {
     static associate(models) {
-      Detail.hasMany(models.Game, {as: 'detail_game', foreignKey: 'id_game'});
+      Detail.hasMany(models.Game, {as: 'detail_game'});
     }
   };
   Detail.init({
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true
     },
     time_game: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false
     },
     description: {
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false
     },
     lat: {
