@@ -66,7 +66,7 @@ const updateGame = async (body) => {
       img: body.img ? body.img : game.img
     });
   };
-  const teamG = await Team.findByPk(body.id_detail);
+  const teamG = await Team.findByPk(body.id_team);
   if(teamG){
     teamG.update({
       size: body.size ? body.size : teamG.size,

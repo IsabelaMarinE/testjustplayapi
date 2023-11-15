@@ -126,7 +126,7 @@ exports.getGamesbyCity = async (req, res, next) => {
 
 exports.getGamesbyId = async (req, res, next) => {
   const id = req.params.id;
-  console.log("id=======",id)
+
   try {
     const game =  await gameServices.getGameById(id);
     if(game){
